@@ -2,7 +2,7 @@ const main = async () => {
     const gameContractFactory = await hre.ethers.getContractFactory("MyEpicGame");
     // Initialize the contract with the basic characters 
     const gameContract = await gameContractFactory.deploy(
-        ["Anita", "arthur", "Jami"], //names
+        ["Anita", "Arthur", "Jami"], //names
         [
             "https://i.imgur.com/pKd5Sdk.png", // Images
             "https://i.imgur.com/xVu4vFL.png", 
@@ -13,7 +13,16 @@ const main = async () => {
     );
 
     await gameContract.deployed();
-    console.log("Contract deployed to: ", gameContract.address);
+    console.log("Contract deployed to: ", gameContract.address)
+    
+    let txn;
+
+    txn = await gameContract.mintCharacterNFT(2);
+    await txn.wait();
+
+    let returnedTokenUri = await gameContract.tokenURI(1);
+    console.log("Token URI: ", returnedTokenUri);
+
 }
 
 const runMain = async () => {
